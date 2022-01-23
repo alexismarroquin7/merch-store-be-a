@@ -49,7 +49,7 @@ exports.up = async (knex) => {
     images.string('image_name')
     .notNullable()
     .unique();
-    images.string('image_description');
+    images.string('image_description', 200);
     images.string('image_title')
     .notNullable();
     images.string('image_alt')
@@ -64,6 +64,7 @@ exports.up = async (knex) => {
 }
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('images')
   await knex.schema.dropTableIfExists('sub_categories')
   await knex.schema.dropTableIfExists('categories')
   await knex.schema.dropTableIfExists('genders')
