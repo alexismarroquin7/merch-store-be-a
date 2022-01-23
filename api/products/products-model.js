@@ -7,6 +7,8 @@ const findAll = async () => {
   .join('sub_categories as sub_cat', 'sub_cat.sub_category_id', 'p.sub_category_id')
   .join('categories as cat', 'cat.category_id', 'sub_cat.category_id')
   .join('genders as g', 'g.gender_id', 'cat.gender_id')
+  .join('product_colors as p_col', 'p_col.product_id', 'p.product_id')
+  .join('colors as col', 'col.color_id', 'p_col.color_id')
   .select(
     'p.product_id',
     'p.product_name',
@@ -43,7 +45,16 @@ const findAll = async () => {
     'g.gender_id',
     'g.gender_name',
     'g.gender_created_at',
-    'g.gender_modified_at'
+    'g.gender_modified_at',
+    
+    'p_col.product_color_id',
+    'p_col.product_color_created_at',
+    'p_col.product_color_modified_at',
+    
+    'p_col.color_id',
+    'col.color_name',
+    'col.color_created_at',
+    'col.color_modified_at',
   )
   
   const visitedProductIds = new Set();
@@ -86,6 +97,20 @@ const findAll = async () => {
 
           }  
         ],
+        product_colors: [
+          {
+            product_color_id: row.product_color_id,
+            created_at: row.product_color_created_at,
+            modified_at: row.product_color_modified_at,
+            
+            color: {
+              color_id: row.color_id,
+              name: row.color_name,
+              created_at: row.color_created_at,
+              modified_at: row.color_modified_at
+            }
+          }
+        ],
         category: {
           category_id: row.category_id,
           name: row.category_name,
@@ -104,15 +129,22 @@ const findAll = async () => {
     } else {
 
       const product_images_set = new Set();
+      const product_colors_set = new Set();
       
       let productIndex = null;
 
       products.forEach((product, index) => {
         if(product.product_id === row.product_id){
           productIndex = index;
+
           product.product_images.forEach(product_image => {
             product_images_set.add(product_image.product_image_id);
           });
+          
+          product.product_colors.forEach(product_color => {
+            product_colors_set.add(product_color.product_color_id);
+          });
+
         }
         
       });
@@ -135,7 +167,24 @@ const findAll = async () => {
         });
         product_images_set.add(row.product_image_id);
       }
-
+      
+      if(!product_colors_set.has(row.product_color_id)){
+        products[productIndex].product_colors.push({
+        
+          product_color_id: row.product_color_id,
+          created_at: row.product_color_created_at,
+          modified_at: row.product_color_modified_at,
+          
+          color: {
+            color_id: row.color_id,
+            name: row.color_name,
+            created_at: row.color_created_at,
+            modified_at: row.color_modified_at
+          }
+        
+        });
+        product_colors_set.add(row.product_color_id);
+      }
     }
   });
 
