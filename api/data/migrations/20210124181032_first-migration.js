@@ -44,6 +44,23 @@ exports.up = async (knex) => {
     .onUpdate('CASCADE')
     .onDelete('RESTRICT');
   })
+  .createTable('images', images => {
+    images.increments('image_id');
+    images.string('image_name')
+    .notNullable()
+    .unique();
+    images.string('image_description');
+    images.string('image_title')
+    .notNullable();
+    images.string('image_alt')
+    .notNullable();
+    images.string('image_src')
+    .notNullable();
+    images.timestamp('image_created_at')
+    .defaultTo(knex.fn.now());
+    images.timestamp('image_modified_at')
+    .defaultTo(knex.fn.now());
+  });
 }
 
 exports.down = async (knex) => {
