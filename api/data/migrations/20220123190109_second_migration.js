@@ -138,10 +138,34 @@ exports.up = async function(knex) {
     .defaultTo(knex.fn.now());
     inventory_images.timestamp('inventory_image_modified_at')
     .defaultTo(knex.fn.now());
+  })
+  .createTable('product_colors', product_colors => {
+    product_colors.increments('product_color_id');
+    
+    product_colors.integer('product_id')
+    .unsigned()
+    .notNullable()
+    .references('product_id')
+    .inTable('products')
+    .onUpdate('CASCADE')
+    .onDelete('RESTRICT');
+    
+    product_colors.integer('color_id')
+    .unsigned()
+    .notNullable()
+    .references('color_id')
+    .inTable('colors')
+    .onUpdate('CASCADE')
+    .onDelete('RESTRICT');
+    product_colors.timestamp('product_color_created_at')
+    .defaultTo(knex.fn.now());
+    product_colors.timestamp('product_color_modified_at')
+    .defaultTo(knex.fn.now());
   });
 };
 
 exports.down = async function(knex) {
+  await knex.schema.dropTableIfExists('product_colors');
   await knex.schema.dropTableIfExists('inventory_images');
   await knex.schema.dropTableIfExists('inventory');
   await knex.schema.dropTableIfExists('colors');

@@ -10,6 +10,12 @@ const images = [
     image_title: "classic-t-shirt-white-front-view",
     image_alt: "classic-t-shirt-white-front-view",
     image_src: "https://m.media-amazon.com/images/I/61ygZ0yRU-L._AC_UX569_.jpg"
+  },
+  {
+    image_name: "classic-t-shirt-black-back-view",
+    image_title: "classic-t-shirt-black-back-view",
+    image_alt: "classic-t-shirt-black-back-view",
+    image_src: "https://www.thefactshop.com/wp-content/uploads/2015/11/BC3001-men-back-white-500x500.jpg"
   }
 ]
 
