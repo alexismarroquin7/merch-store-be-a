@@ -11,16 +11,19 @@ const sizes = require('./sizes')
 const colors = require('./colors')
 const inventory = require('./inventory')
 const inventory_images = require('./inventory_images')
+const product_colors = require('./product_colors')
 
 module.exports = {
   genders,
   categories,
   sub_categories,
   images,
+  
   products,
   product_images,
   sizes,
   colors,
   inventory,
   inventory_images,
+  product_colors
 }
