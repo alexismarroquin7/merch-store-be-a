@@ -1,13 +1,16 @@
 exports.up = async (knex) => {
   await knex.schema
-    .createTable('users', (users) => {
-      users.increments('user_id')
-      users.string('username', 200).notNullable()
-      users.string('password', 200).notNullable()
-      users.timestamps(false, true)
-    })
+  .createTable('genders', genders => {
+    genders.increments('gender_id');
+    genders.string('gender_name')
+    .unique();
+    genders.timestamp('gender_created_at')
+    .defaultTo(knex.fn.now());
+    genders.timestamp('gender_modified_at')
+    .defaultTo(knex.fn.now());
+  })
 }
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('genders')
 }
