@@ -9,7 +9,9 @@ const findAll = async () => {
     'img.image_alt as alt',
     'img.image_title as title',
     'img.image_name as name',
-    'img.image_description as description'
+    'img.image_description as description',
+    'img.image_created_at as created_at',
+    'img.image_modified_at as modified_at'
   )
 
 }
