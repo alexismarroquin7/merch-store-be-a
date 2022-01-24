@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { validateInvetoryExistsByInventoryId } = require('./inventory-middleware');
+const { validateInvetoryExistsByInventoryId, handleQuery } = require('./inventory-middleware');
 const Inventory = require('./inventory-model');
 
-router.get('/', async(req, res, next) => {
+router.get('/', handleQuery, async(req, res, next) => {
   try {
-    const inventory = await Inventory.findAll(req.query);
+    const inventory = await Inventory.findAll();
     res.status(200).json(inventory);
   } catch (err) {
     next(err);

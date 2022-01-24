@@ -2,17 +2,23 @@ const db = require('../data/db-config');
 const { isEmptyObject } = require('../../utils');
 
 function findByProductId(product_id, inventoryList){
+  
   let product = {};
   
   let colors = [];
   let sizes = [];
   let inventory_images = [];
+  let images = [];
+  const inventory_id_list = new Set();
+
   const visitedColorIds = new Set();
   const visitedSizeIds = new Set();
   const visitedInventoryImageIds = new Set();
+  const visitedImageIds = new Set();
 
   inventoryList.forEach(inventoryItem => {
-    console.log(inventoryItem.color)
+    
+    inventory_id_list.add(inventoryItem.inventory_id);
 
     if(inventoryItem.product.product_id === Number(product_id)){
       if(isEmptyObject(product)){
@@ -23,33 +29,66 @@ function findByProductId(product_id, inventoryList){
           gender: inventoryItem.gender
         };
         
-        colors.push(inventoryItem.color);
+        colors.push({
+          ...inventoryItem.color,
+          inventory_id: inventoryItem.inventory_id
+        });
         visitedColorIds.add(inventoryItem.color.color_id);
         
-        sizes.push(inventoryItem.size);
+        sizes.push({
+          ...inventoryItem.size,
+          inventory_id: inventoryItem.inventory_id
+        });
         visitedSizeIds.add(inventoryItem.size.size_id);
 
         inventoryItem.inventory_images.forEach(inv_img => {
-          inventory_images.push(inv_img);
+
+          inventory_images.push({
+            ...inv_img,
+            inventory_id: inventoryItem.inventory_id
+          });
           visitedInventoryImageIds.add(inv_img.inventory_image_id);
+          
+          images.push(inv_img.image);
+          visitedImageIds.add(inv_img.image.image_id);
+
         })
 
       } else {
         if(!visitedColorIds.has(inventoryItem.color.color_id)){
-          colors.push(inventoryItem.color);
+          colors.push({
+            ...inventoryItem.color,
+            inventory_id: inventoryItem.inventory_id
+          });
           visitedColorIds.add(inventoryItem.color.color_id);
         }
         
         if(!visitedSizeIds.has(inventoryItem.size.size_id)){
-          sizes.push(inventoryItem.size);
+          sizes.push({
+            ...inventoryItem.size,
+            inventory_id: inventoryItem.inventory_id
+          });
           visitedSizeIds.add(inventoryItem.size.size_id);
         }
         
         inventoryItem.inventory_images.forEach(inv_img => {
           if(!visitedInventoryImageIds.has(inv_img.inventory_image_id)){
-            inventory_images.push(inv_img);
+            inventory_images.push({
+              ...inv_img,
+              inventory_id: inventoryItem.inventory_id
+            });
             visitedInventoryImageIds.add(inv_img.inventory_image_id);
           }
+
+          if(!visitedImageIds.has(inv_img.image.image_id)){
+            images.push({
+              ...inv_img.image,
+              inventory_id: inventoryItem.inventory_id
+            });
+            visitedImageIds.add(inv_img.image.image_id);
+          }
+
+
         });
         
       }
@@ -57,12 +96,14 @@ function findByProductId(product_id, inventoryList){
 
     }
   })
-
+  if(!product.product_id) return null;
   return {
     ...product,
     colors,
     sizes,
-    inventory_images
+    inventory_images,
+    images,
+    inventory_ids: Array.from(inventory_id_list)
   }
 }
 
