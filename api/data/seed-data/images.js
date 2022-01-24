@@ -15,7 +15,7 @@ const images = [
     image_name: "classic-t-shirt-black-back-view",
     image_title: "classic-t-shirt-black-back-view",
     image_alt: "classic-t-shirt-black-back-view",
-    image_src: "https://www.thefactshop.com/wp-content/uploads/2015/11/BC3001-men-back-white-500x500.jpg"
+    image_src: "https://www.thefactshop.com/wp-content/uploads/2016/04/BC3001-men-back-black-500x500.jpg"
   }
 ]
 
