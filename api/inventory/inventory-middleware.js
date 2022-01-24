@@ -39,7 +39,10 @@ const handleQuery = async (req, res, next) => {
         next(err);
       }
     } else {
-      next();
+      next({
+        status: 400,
+        message: `an invalid query parameter was provided`
+      });
     }
 
   }
