@@ -67,8 +67,8 @@ const findAll = async () => {
         product_id: row.product_id,
         name: row.product_name,
         description: row.product_description,
-        valued_at: row.product_valued_at,
-        current_price: row.product_current_price,
+        valued_at: parseFloat(row.product_valued_at),
+        current_price: parseFloat(row.product_current_price),
         created_at: row.product_created_at,
         modified_at: row.product_modified_at,
         sub_category: {
