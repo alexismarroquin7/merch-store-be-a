@@ -18,14 +18,14 @@ function groupByProducts(inventoryList = []){
 
     let imageSet = new Set();
     let imageList = [];
-    
-    // let inventoryListToUse = [];
 
     inventoryList.forEach(inv_item => {
       const match = inv_item.product.product_id === product_id;
       if(match){
         if(!product.product_id){
           product = inv_item.product;
+          product.category = inv_item.category;
+          product.sub_category = inv_item.sub_category;
         }
 
         if(!sizeSet.has(inv_item.size.size_id)){
@@ -208,7 +208,6 @@ function formatInventoryList(rows) {
         sub_category: {
           sub_category_id: row.sub_category_id,
           name: row.sub_category_name,
-          text: row.sub_category_text,
           created_at: row.sub_category_created_at,
           modified_at: row.sub_category_modified_at,
         },
@@ -220,9 +219,9 @@ function formatInventoryList(rows) {
         },
         gender: {
           gender_id: row.gender_id,
-          gender_name: row.gender_name,
-          gender_created_at: row.gender_created_at,
-          gender_modified_at: row.gender_modified_at,
+          name: row.gender_name,
+          created_at: row.gender_created_at,
+          modified_at: row.gender_modified_at,
         },
         inventory_images: [
           {
@@ -231,13 +230,13 @@ function formatInventoryList(rows) {
             inventory_image_modified_at: row.inventory_image_modified_at,
             image: {
               image_id: row.image_id,
-              image_name: row.image_name,
-              image_description: row.image_description,
-              image_title: row.image_title,
-              image_alt: row.image_alt,
-              image_src: row.image_src,
-              image_created_at: row.image_created_at,
-              image_modified_at: row.image_modified_at,
+              name: row.image_name,
+              description: row.image_description,
+              title: row.image_title,
+              alt: row.image_alt,
+              src: row.image_src,
+              created_at: row.image_created_at,
+              modified_at: row.image_modified_at,
             }
 
           }
@@ -263,17 +262,17 @@ function formatInventoryList(rows) {
       if(!inventory_images_set.has(row.inventory_image_id)){
         inventory[inventoryIndex].inventory_images.push({
           inventory_image_id: row.inventory_image_id,
-          inventory_image_created_at: row.inventory_image_created_at,
-          inventory_image_modified_at: row.inventory_image_modified_at,
+          created_at: row.inventory_image_created_at,
+          modified_at: row.inventory_image_modified_at,
           image: {
             image_id: row.image_id,
-            image_name: row.image_name,
-            image_description: row.image_description,
-            image_title: row.image_title,
-            image_alt: row.image_alt,
-            image_src: row.image_src,
-            image_created_at: row.image_created_at,
-            image_modified_at: row.image_modified_at,
+            name: row.image_name,
+            description: row.image_description,
+            title: row.image_title,
+            alt: row.image_alt,
+            src: row.image_src,
+            created_at: row.image_created_at,
+            modified_at: row.image_modified_at,
           }
         });
       }
@@ -336,7 +335,6 @@ const findAll = async (query = {}) => {
     
     'sub_cat.sub_category_id',
     'sub_cat.sub_category_name',
-    'sub_cat.sub_category_text',
     'sub_cat.sub_category_created_at',
     'sub_cat.sub_category_modified_at',
     

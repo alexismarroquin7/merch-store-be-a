@@ -30,8 +30,6 @@ exports.up = async (knex) => {
     sub_categories.increments('sub_category_id');
     sub_categories.string('sub_category_name')
     .notNullable();
-    sub_categories.string('sub_category_text')
-    .notNullable();
     sub_categories.timestamp('sub_category_created_at')
     .defaultTo(knex.fn.now());
     sub_categories.timestamp('sub_category_modified_at')
