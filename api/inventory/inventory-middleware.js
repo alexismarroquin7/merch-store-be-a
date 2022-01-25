@@ -38,6 +38,20 @@ const handleQuery = async (req, res, next) => {
       } catch (err) {
         next(err);
       }
+    } else if(req.query.groupBy) {
+      if(req.query.groupBy === 'products'){
+        try {
+          const products = await Inventory.findAll(req.query);
+          res.status(200).json(products);
+        } catch (err) {
+          next(err);
+        } 
+      } else {
+        next({
+          status: 400,
+          message: `an invalid query parameter was provided`
+        });
+      }
     } else {
       next({
         status: 400,

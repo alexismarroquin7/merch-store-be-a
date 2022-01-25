@@ -1,6 +1,69 @@
 const db = require('../data/db-config');
 const { isEmptyObject } = require('../../utils');
 
+function groupByProducts(inventoryList = []){
+  const uniqueProductIds = new Set(inventoryList.map(inv_item => inv_item.product.product_id));
+
+  const result = Array.from(uniqueProductIds).map(product_id => {
+    let product = {};
+
+    let sizeSet = new Set();
+    let sizeList = []
+    
+    let colorSet = new Set();
+    let colorList = [];
+    
+    let inventoryImageSet = new Set();
+    let inventoryImageList = [];
+
+    let imageSet = new Set();
+    let imageList = [];
+    
+    // let inventoryListToUse = [];
+
+    inventoryList.forEach(inv_item => {
+      const match = inv_item.product.product_id === product_id;
+      if(match){
+        if(!product.product_id){
+          product = inv_item.product;
+        }
+
+        if(!sizeSet.has(inv_item.size.size_id)){
+          sizeList.push(inv_item.size);
+          sizeSet.add(inv_item.size.size_id);
+        }
+        
+        if(!colorSet.has(inv_item.color.color_id)){
+          colorList.push(inv_item.color);
+          colorSet.add(inv_item.color.color_id);
+        }
+        
+        inv_item.inventory_images.forEach(inv_image => {
+          if(!inventoryImageSet.has(inv_image.inventory_image_id)){
+            inventoryImageList.push(inv_image);
+            inventoryImageSet.add(inv_image.inventory_image_id);
+          }
+          if(!imageSet.has(inv_image.image.image_id)){
+            imageList.push(inv_image.image);
+            imageSet.add(inv_image.image.image_id);
+          }
+        });
+      }
+    });
+
+    return {
+      ...product,
+      sizes: sizeList,
+      inventory: inventoryList,
+      colors: colorList,
+      images: imageList,
+      inventory_images: inventoryImageList
+    };
+  })
+  
+  return result;
+}
+
 function findByProductId(product_id, inventoryList){
   
   let product = {};
@@ -225,6 +288,12 @@ function formatInventoryList(rows) {
 function queryInventory(query, inventoryList) {
   if(query.product_id){
     return findByProductId(query.product_id, inventoryList);
+  } else if(query.groupBy){
+    if(query.groupBy === 'products'){
+      return groupByProducts(inventoryList);
+    } else {
+      return inventoryList;
+    }
   } else {
     return inventoryList;
   }
