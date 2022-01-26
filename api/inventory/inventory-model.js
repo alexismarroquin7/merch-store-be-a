@@ -18,10 +18,12 @@ function groupByProducts(inventoryList = []){
 
     let imageSet = new Set();
     let imageList = [];
+    let inventoryListToUse = [];
 
     inventoryList.forEach(inv_item => {
       const match = inv_item.product.product_id === product_id;
       if(match){
+        inventoryListToUse.push(inv_item);
         if(!product.product_id){
           product = inv_item.product;
           product.category = inv_item.category;
@@ -54,7 +56,7 @@ function groupByProducts(inventoryList = []){
     return {
       ...product,
       sizes: sizeList,
-      inventory: inventoryList,
+      inventory: inventoryListToUse,
       colors: colorList,
       images: imageList,
       inventory_images: inventoryImageList
