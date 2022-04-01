@@ -21,19 +21,19 @@ const inventory_images = [
   },
   { // [ inventory_image_id: 6 ]
     inventory_id: 4,
-    image_id: 1
+    image_id: 2
   },
   { // [ inventory_image_id: 7 ]
     inventory_id: 4,
-    image_id: 3
+    image_id: 4
   },
   { // [ inventory_image_id: 8 ]
     inventory_id: 5,
-    image_id: 1
+    image_id: 2
   },
   { // [ inventory_image_id: 9 ]
     inventory_id: 6,
-    image_id: 3
+    image_id: 2
   },
   { // [ inventory_image_id: 10 ]
     inventory_id: 7,
