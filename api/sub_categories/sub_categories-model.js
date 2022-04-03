@@ -10,7 +10,6 @@ const findAll = async () => {
     return {
       sub_category_id: row.sub_category_id,
       name: row.sub_category_name,
-      text: row.sub_category_text,
       created_at: row.sub_category_created_at,
       modified_at: row.sub_category_modified_at,
       category: {

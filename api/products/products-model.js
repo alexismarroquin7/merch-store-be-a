@@ -20,7 +20,6 @@ const findAll = async () => {
     
     'p.sub_category_id',
     'sub_cat.sub_category_name',
-    'sub_cat.sub_category_text',
     'sub_cat.sub_category_created_at',
     'sub_cat.sub_category_modified_at',
     
@@ -74,7 +73,6 @@ const findAll = async () => {
         sub_category: {
           sub_category_id: row.sub_category_id,
           name: row.sub_category_name,
-          text: row.sub_category_text,
           created_at: row.sub_category_created_at,
           modified_at: row.sub_category_modified_at,
         },
