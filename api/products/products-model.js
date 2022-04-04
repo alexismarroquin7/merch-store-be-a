@@ -2,13 +2,13 @@ const db = require('../data/db-config');
 
 const findAll = async () => {
   const rows = await db('products as p')
-  .join('product_images as p_img', 'p_img.product_id', 'p.product_id')
-  .join('images as img', 'p_img.image_id', 'img.image_id')
-  .join('sub_categories as sub_cat', 'sub_cat.sub_category_id', 'p.sub_category_id')
-  .join('categories as cat', 'cat.category_id', 'sub_cat.category_id')
-  .join('genders as g', 'g.gender_id', 'cat.gender_id')
-  .join('product_colors as p_col', 'p_col.product_id', 'p.product_id')
-  .join('colors as col', 'col.color_id', 'p_col.color_id')
+  .leftJoin('product_images as p_img', 'p_img.product_id', 'p.product_id')
+  .leftJoin('images as img', 'p_img.image_id', 'img.image_id')
+  .leftJoin('sub_categories as sub_cat', 'sub_cat.sub_category_id', 'p.sub_category_id')
+  .leftJoin('categories as cat', 'cat.category_id', 'sub_cat.category_id')
+  .leftJoin('genders as g', 'g.gender_id', 'cat.gender_id')
+  .leftJoin('product_colors as p_col', 'p_col.product_id', 'p.product_id')
+  .leftJoin('colors as col', 'col.color_id', 'p_col.color_id')
   .select(
     'p.product_id',
     'p.product_name',
@@ -187,6 +187,7 @@ const findAll = async () => {
   });
 
   return products;
+  
 }
 
 module.exports = {

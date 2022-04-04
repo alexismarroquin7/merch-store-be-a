@@ -10,6 +10,62 @@ router.get('/', async(req, res, next) => {
   }
 });
 
+/*
+
+  [ ] validate product required fields
+    [ ] name
+      [ ] type === 'string'
+    
+    [ ] description
+      [ ] type === 'string'
+      
+    [ ] colors
+      [ ] type === 'array'
+      [ ] color: 
+        {
+          name: '',
+          alt: '',
+          title: '',
+          src: ''
+        }
+    
+    [ ] images
+      [ ] type === 'array'
+      [ ] image: 
+        {
+          name: '',
+          alt: '',
+          title: '',
+          src: ''
+        }
+      
+    [ ] gender
+      [ ] type === 'string'
+      [ ] gender:
+        {
+          name: ''
+        }
+      
+      [ ] category
+        {
+          name: ''
+        }
+      
+      [ ] type === 'string'
+      
+    [ ] sub_category
+      [ ] type === 'string'
+      
+  
+  [ ] validate product name unique fields
+  [ ] 
+
+*/
+
+router.put('/', async(req, res, next) => {
+
+});
+
 router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status||500).json({
     message: err.message,
