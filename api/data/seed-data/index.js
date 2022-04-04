@@ -13,6 +13,10 @@ const inventory = require('./inventory')
 const inventory_images = require('./inventory_images')
 const product_colors = require('./product_colors')
 
+// third migration
+const roles = require('./roles')
+const users = require('./users')
+
 module.exports = {
   genders,
   categories,
@@ -25,5 +29,8 @@ module.exports = {
   colors,
   inventory,
   inventory_images,
-  product_colors
+  product_colors,
+
+  roles,
+  users
 }
