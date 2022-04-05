@@ -179,7 +179,7 @@ function formatInventoryList(rows) {
   
   rows.forEach(row => {
     if(!visitedInventoryId.has(row.inventory_id)){
-      inventory.push({
+      const inventoryItem = {
         inventory_id: row.inventory_id,
         amount_in_stock: row.inventory_amount_in_stock,
         created_at: row.inventory_created_at,
@@ -226,24 +226,27 @@ function formatInventoryList(rows) {
           modified_at: row.gender_modified_at,
         },
         inventory_images: [
-          {
-            inventory_image_id: row.inventory_image_id,
-            inventory_image_created_at: row.inventory_image_created_at,
-            inventory_image_modified_at: row.inventory_image_modified_at,
-            image: {
-              image_id: row.image_id,
-              name: row.image_name,
-              description: row.image_description,
-              title: row.image_title,
-              alt: row.image_alt,
-              src: row.image_src,
-              created_at: row.image_created_at,
-              modified_at: row.image_modified_at,
-            }
+            {
+              inventory_image_id: row.inventory_image_id,
+              inventory_image_created_at: row.inventory_image_created_at,
+              inventory_image_modified_at: row.inventory_image_modified_at,
+              image: {
+                image_id: row.image_id,
+                name: row.image_name,
+                description: row.image_description,
+                title: row.image_title,
+                alt: row.image_alt,
+                src: row.image_src,
+                created_at: row.image_created_at,
+                modified_at: row.image_modified_at,
+              }
 
-          }
-        ]
-      });
+            }
+          ]
+      };
+      
+      inventory.push(inventoryItem);
+
     } else {
       const inventory_images_set = new Set();
       
@@ -283,7 +286,15 @@ function formatInventoryList(rows) {
     visitedInventoryId.add(row.inventory_id)
   });
 
-  return inventory;
+  const inventoryToUse = inventory.map(inv => {
+    const inventory_images = inv.inventory_images.filter(inv_image => inv_image.inventory_image_id !== null);
+    return {
+      ...inv,
+      inventory_images
+    }
+  })
+
+  return inventoryToUse;
 }
 
 function queryInventory(query, inventoryList) {

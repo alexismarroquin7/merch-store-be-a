@@ -12,7 +12,8 @@
     "databaseh": "heroku pg:psql -a merch-store-be-a",
     "seedh": "heroku run knex seed:run -a merch-store-be-a",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand",
-    "deploy": "git push heroku main"
+    "deploy": "git push heroku main",
+    "dbreset": "npm run rollback && npm run migrate && npm run seed"
   },
   "engines": {
     "node": "16.13.1"

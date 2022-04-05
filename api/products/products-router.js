@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { validateProductExistsByProductId, validateProductRequiredFields } = require('./products-middleware');
 const Product = require('./products-model');
 
 router.get('/', async(req, res, next) => {
@@ -10,60 +11,22 @@ router.get('/', async(req, res, next) => {
   }
 });
 
-/*
+router.get('/:product_id', validateProductExistsByProductId, (req, res) => {
+  res.status(200).json(req.product)
+})
 
-  [ ] validate product required fields
-    [ ] name
-      [ ] type === 'string'
-    
-    [ ] description
-      [ ] type === 'string'
-      
-    [ ] colors
-      [ ] type === 'array'
-      [ ] color: 
-        {
-          name: '',
-          alt: '',
-          title: '',
-          src: ''
-        }
-    
-    [ ] images
-      [ ] type === 'array'
-      [ ] image: 
-        {
-          name: '',
-          alt: '',
-          title: '',
-          src: ''
-        }
-      
-    [ ] gender
-      [ ] type === 'string'
-      [ ] gender:
-        {
-          name: ''
-        }
-      
-      [ ] category
-        {
-          name: ''
-        }
-      
-      [ ] type === 'string'
-      
-    [ ] sub_category
-      [ ] type === 'string'
-      
-  
-  [ ] validate product name unique fields
-  [ ] 
-
-*/
-
-router.put('/', async(req, res, next) => {
-
+router.put(
+  '/:product_id',
+  validateProductExistsByProductId,
+  validateProductRequiredFields,
+  async(req, res, next) => {
+    const { product_id } = req.params;
+    try {
+      const product = await Product.updateByProductId(product_id, req.body);
+      res.status(200).json(product);
+    } catch (err) {
+      next(err);
+    }
 });
 
 router.use((err, req, res, next) => { // eslint-disable-line

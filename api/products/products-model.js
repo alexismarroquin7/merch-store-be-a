@@ -190,6 +190,55 @@ const findAll = async () => {
   
 }
 
+const findByProductId = async (product_id) => {
+
+  const products = await findAll();
+
+  const matchingProductList = products.filter(product => product.product_id === product_id);
+  const found = matchingProductList.length === 1;
+
+  if(found){
+    return matchingProductList[0]
+  } else {
+    return null;
+  }
+}
+
+const updateByProductId = async (product_id, changes) => {
+  
+  const sub_category = await db('sub_categories as s_cat')
+  .join('categories as cat', 's_cat.category_id', 'cat.category_id')
+  .join('genders as g', 'g.gender_id', 'cat.gender_id')
+  .where({
+    's_cat.sub_category_name': changes.sub_category.name,
+    'cat.category_name': changes.category.name,
+    'g.gender_name': changes.gender.name
+  })
+  .first()
+  
+  const oldProduct = await findByProductId(Number(product_id));
+
+  const [ product ] = await db('products as p')
+  .where({
+    'p.product_id': Number(product_id)
+  })
+  .update({
+    product_name: changes.name,
+    product_description: changes.description,
+    product_valued_at: changes.valued_at,
+    product_current_price: changes.current_price,
+    product_modified_at: db.fn.now(),
+    product_created_at: oldProduct.created_at,
+    sub_category_id: sub_category.sub_category_id
+  }, ['p.product_id']);
+
+  const updatedProduct = await findByProductId(product.product_id);
+  
+  return updatedProduct;
+}
+
 module.exports = {
-  findAll
+  findAll,
+  findByProductId,
+  updateByProductId
 }
