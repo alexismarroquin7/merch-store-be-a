@@ -19,7 +19,6 @@ router.delete(
       const product_images = await deleteByProductImageId(Number(req.params.product_image_id));
       res.status(200).json(product_images);
     } catch (err) {
-      console.log(err.message)
       next(err);
     }
 });

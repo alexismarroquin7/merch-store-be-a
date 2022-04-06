@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { validateProductExistsByProductId, validateProductRequiredFields } = require('./products-middleware');
+const { validateProductExistsByProductId, validateProductRequiredFields, validateProductNameUnique } = require('./products-middleware');
 const Product = require('./products-model');
 
 router.get('/', async(req, res, next) => {
@@ -19,7 +19,8 @@ router.put(
   '/:product_id',
   validateProductExistsByProductId,
   validateProductRequiredFields,
-  async(req, res, next) => {
+  validateProductNameUnique,
+  async (req, res, next) => {
     const { product_id } = req.params;
     try {
       const product = await Product.updateByProductId(product_id, req.body);

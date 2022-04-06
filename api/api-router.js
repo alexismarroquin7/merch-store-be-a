@@ -7,6 +7,7 @@ const productsRouter = require('./products/products-router');
 const productImagesRouter = require('./product_images/product_images-router');
 const inventoryRouter = require('./inventory/inventory-router');
 const authRouter = require('./auth/auth-router');
+const inventoryImagesRouter = require('./inventory_images/inventory_images-router');
 
 router.use('/genders', gendersRouter);
 router.use('/categories', categoriesRouter);
@@ -16,6 +17,7 @@ router.use('/products', productsRouter);
 router.use('/inventory', inventoryRouter);
 router.use('/auth', authRouter);
 router.use('/product_images', productImagesRouter);
+router.use('/inventory_images', inventoryImagesRouter);
 
 router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status||500).json({

@@ -228,8 +228,8 @@ function formatInventoryList(rows) {
         inventory_images: [
             {
               inventory_image_id: row.inventory_image_id,
-              inventory_image_created_at: row.inventory_image_created_at,
-              inventory_image_modified_at: row.inventory_image_modified_at,
+              created_at: row.inventory_image_created_at,
+              modified_at: row.inventory_image_modified_at,
               image: {
                 image_id: row.image_id,
                 name: row.image_name,

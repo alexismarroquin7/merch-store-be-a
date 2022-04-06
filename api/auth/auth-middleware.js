@@ -60,7 +60,6 @@ const handleJWT = (req, res, next) => {
   try {
     const token = generateJWTForUser(req.user);
     req.token = token;
-    console.log('🏀')
     next();
   } catch (err) {
     next(err);

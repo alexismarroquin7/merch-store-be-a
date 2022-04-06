@@ -14,7 +14,6 @@ router.post(
   validatePassword,
   handleJWT,
   async (req, res) => {
-    console.log('🔥')
     res.status(200).json({
       message: `Welcome back ${req.user.username}`,
       user: req.user,

@@ -1,4 +1,4 @@
-const { findByProductId } = require("./products-model");
+const { findByProductId, findAll } = require("./products-model");
 
 const validateProductRequiredFields = (req, res, next) => {
   
@@ -8,9 +8,7 @@ const validateProductRequiredFields = (req, res, next) => {
     current_price,
     gender,
     category,
-    sub_category,
-    colors,
-    images
+    sub_category
   } = req.body;
   
   if(!name){
@@ -48,18 +46,6 @@ const validateProductRequiredFields = (req, res, next) => {
       message: 'product gender name is a required field'
     });
 
-  } else if(!Array.isArray(colors)){
-    next({
-      status: 400,
-      message: 'product colors is a required field'
-    });
-    
-  } else if(!Array.isArray(images)){
-    next({
-      status: 400,
-      message: 'product images is a required field'
-    });
-
   } else {
     next();
   }
@@ -84,7 +70,30 @@ const validateProductExistsByProductId = async (req, res, next) => {
   }
 }
 
+const validateProductNameUnique = async (req, res, next) => {
+  const { name } = req.body;
+  const { product_id } = req.params;
+
+  try {
+    const products = await findAll();
+    const matchingProducts = products.filter(product => product.name === name && product.product_id !== Number(product_id));
+
+    if(matchingProducts.length === 0){
+      next();
+    } else {
+      next({
+        status: 400,
+        message: `product name "${name}" is already taken`
+      })
+    }
+  
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   validateProductRequiredFields,
-  validateProductExistsByProductId
+  validateProductExistsByProductId,
+  validateProductNameUnique
 }
