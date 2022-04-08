@@ -44,7 +44,7 @@ describe('[GET] /api/inventory/:inventory_id', () => {
     expect(res.body.inventory_id).toEqual(inventory.inventory_id);
   });
 
-  it('on SUCCESS responds with inventory of given inventory_id in proper format', async () => {
+  it('on SUCCESS responds with inventory in proper format', async () => {
 
     const inventory_id = 2;
     let res = await request(server).get(`/api/inventory/${inventory_id}`);
