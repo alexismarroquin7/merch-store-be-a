@@ -24,6 +24,7 @@ const findAll = async () => {
     'sub_cat.sub_category_modified_at',
     
     'p_img.product_image_id',
+    'p_img.product_image_index',
     'p_img.product_image_created_at',
     'p_img.product_image_modified_at',
     
@@ -79,6 +80,7 @@ const findAll = async () => {
         product_images: [
           {
             product_image_id: row.product_image_id,
+            index: row.product_image_index,
             created_at: row.product_image_created_at,
             modified_at: row.product_image_modified_at,
             
@@ -150,6 +152,7 @@ const findAll = async () => {
       if(!product_images_set.has(row.product_image_id)){
         products[productIndex].product_images.push({
           product_image_id: row.product_image_id,
+          index: row.product_image_index,
           created_at: row.product_image_created_at,
           modified_at: row.product_image_modified_at,
           image: {
@@ -185,6 +188,14 @@ const findAll = async () => {
       }
     }
   });
+
+  products = products.map(product => {
+    const product_images = product.product_images.filter(p_img => p_img.product_image_id !== null);
+    return {
+      ...product,
+      product_images: product_images.sort((a,b) => a.index - b.index)
+    }
+  })
 
   return products;
   

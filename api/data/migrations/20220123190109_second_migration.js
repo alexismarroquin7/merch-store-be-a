@@ -30,7 +30,10 @@ exports.up = async function(knex) {
   })
   .createTable('product_images', product_images => {
     product_images.increments('product_image_id')
-
+    
+    product_images.integer('product_image_index')
+    .notNullable();
+    
     product_images.integer('image_id')
     .unsigned()
     .notNullable()
